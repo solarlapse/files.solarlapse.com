@@ -4,7 +4,10 @@ tasks:
   download:
     desc: "Download 'public/videos/enlil' files"
     cmds:
-      - task: "run:download"
+      - task: ":swpc:download"
+        vars:
+          OUTPUT_DIR: "public/videos/enlil"
+          PRODUCT: "enlil"
 
   deploy:
     desc: "Deploy 'public/videos/enlil' files"
