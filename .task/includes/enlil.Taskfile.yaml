@@ -14,7 +14,7 @@ tasks:
     deps:
       - task: "download"
     cmds:
-      - task: ":ftp:sync"
+      - task: ":ftp:copy-file"
         vars:
-          SOURCE_DIR: "public/videos/enlil"
-          TARGET_DIR: "/videos/enlil"
+          SOURCE_FILE: "public/videos/enlil/enlil.mp4"
+          TARGET_FILE: "/videos/enlil/enlil.mp4"
