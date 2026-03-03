@@ -2,16 +2,19 @@ version: "3"
 
 tasks:
   download:
-    desc: "Download 'public/text/dst' files"
+    desc: "Download 'public/text/dst/dst.txt'"
     cmds:
-      - task: "latest:download"
+      - |
+        dst \
+          --all \
+          --output public/text/dst/dst.txt
 
   deploy:
     desc: "Deploy 'public/text/dst' files"
     deps:
       - task: "download"
     cmds:
-      - task: ":ftp:sync"
+      - task: ":ftp:copy-file"
         vars:
-          SOURCE_DIR: "public/text/dst"
-          TARGET_DIR: "/text/dst"
+          SOURCE_FILE: "public/text/dst/dst.txt"
+          TARGET_FILE: "/text/dst/dst.txt"
