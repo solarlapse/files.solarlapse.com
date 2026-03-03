@@ -1,0 +1,35 @@
+version: "3"
+
+tasks:
+  download:
+    desc: "Download 'public/videos/enlil' files"
+    cmds:
+      - task: "run:download"
+
+  deploy:
+    desc: "Deploy 'public/videos/enlil' files"
+    deps:
+      - task: "download"
+    cmds:
+      - task: ":ftp:sync"
+        vars:
+          SOURCE_DIR: "public/videos/enlil"
+          TARGET_DIR: "/videos/enlil"
+
+  run:download:
+    desc: "Download 'public/videos/enlil/enlil.mp4'"
+    cmds:
+      - task: ":swpc:download"
+        vars:
+          OUTPUT_DIR: "public/videos/enlil"
+          PRODUCT: "enlil"
+
+  run:deploy:
+    desc: "Deploy 'public/videos/enlil/enlil.mp4'"
+    deps:
+      - task: "run:download"
+    cmds:
+      - task: ":ftp:copy-file"
+        vars:
+          SOURCE_FILE: "public/videos/enlil/enlil.mp4"
+          TARGET_FILE: "/videos/enlil/enlil.mp4"

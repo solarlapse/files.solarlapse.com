@@ -1,0 +1,50 @@
+version: "3"
+
+tasks:
+  sync:
+    desc: "Sync files with FTP"
+    internal: true
+    cmds:
+      - >-
+        rclone sync {{ .SOURCE_DIR }} :ftp:{{ .TARGET_DIR }} \
+          --ftp-host=${FTP_HOST} \
+          --ftp-user=${FTP_USER} \
+          --ftp-pass=$(rclone obscure ${FTP_PASSWORD}) \
+          --ftp-explicit-tls=true
+    requires:
+      vars:
+        - FTP_HOST
+        - FTP_USER
+        - FTP_PASSWORD
+
+  copy:
+    desc: "Copy files with FTP"
+    internal: true
+    cmds:
+      - >-
+        rclone copy {{ .SOURCE_DIR }} :ftp:{{ .TARGET_DIR }} \
+          --ftp-host=${FTP_HOST} \
+          --ftp-user=${FTP_USER} \
+          --ftp-pass=$(rclone obscure ${FTP_PASSWORD}) \
+          --ftp-explicit-tls=true
+    requires:
+      vars:
+        - FTP_HOST
+        - FTP_USER
+        - FTP_PASSWORD
+
+  copy-file:
+    desc: "Copy one file with FTP"
+    internal: true
+    cmds:
+      - >-
+        rclone copyto {{ .SOURCE_FILE }} :ftp:{{ .TARGET_FILE }} \
+          --ftp-host=${FTP_HOST} \
+          --ftp-user=${FTP_USER} \
+          --ftp-pass=$(rclone obscure ${FTP_PASSWORD}) \
+          --ftp-explicit-tls=true
+    requires:
+      vars:
+        - FTP_HOST
+        - FTP_USER
+        - FTP_PASSWORD

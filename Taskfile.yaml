@@ -1,0 +1,28 @@
+version: "3"
+
+dotenv:
+  - .env
+
+includes:
+  dst: ".task/includes/dst.Taskfile.yaml"
+  enlil: ".task/includes/enlil.Taskfile.yaml"
+  lasco: ".task/includes/lasco.Taskfile.yaml"
+  ovation: ".task/includes/ovation.Taskfile.yaml"
+  public: ".task/includes/public.Taskfile.yaml"
+  suvi: ".task/includes/suvi.Taskfile.yaml"
+  swpc:
+    taskfile: ".task/lib/swpc.Taskfile.yaml"
+    internal: true
+  ftp:
+    taskfile: ".task/lib/ftp.Taskfile.yaml"
+    internal: true
+
+tasks:
+  default:
+    desc: "Download all files"
+    cmds:
+      - task: "dst:download"
+      - task: "enlil:download"
+      - task: "lasco:download"
+      - task: "ovation:download"
+      - task: "suvi:download"

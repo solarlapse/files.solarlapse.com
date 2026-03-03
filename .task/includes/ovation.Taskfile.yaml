@@ -1,0 +1,54 @@
+version: "3"
+
+tasks:
+  download:
+    desc: "Download 'public/videos/ovation' files"
+    cmds:
+      - task: "south-24h:download"
+      - task: "north-24h:download"
+
+  deploy:
+    desc: "Deploy 'public/videos/ovation' files"
+    deps:
+      - task: "download"
+    cmds:
+      - task: ":ftp:sync"
+        vars:
+          SOURCE_DIR: "public/videos/ovation"
+          TARGET_DIR: "/videos/ovation"
+
+  south-24h:download:
+    desc: "Download 'public/videos/ovation/ovation_south_24h.mp4'"
+    cmds:
+      - task: ":swpc:download"
+        vars:
+          OUTPUT_DIR: "public/videos/ovation"
+          PRODUCT: "ovation_south_24h"
+
+  south-24h:deploy:
+    desc: "Deploy 'public/videos/ovation/ovation_south_24h.mp4'"
+    deps:
+      - task: "south-24h:download"
+    cmds:
+      - task: ":ftp:copy-file"
+        vars:
+          SOURCE_FILE: "public/videos/ovation/ovation_south_24h.mp4"
+          TARGET_FILE: "/videos/ovation/ovation_south_24h.mp4"
+
+  north-24h:download:
+    desc: "Download 'public/videos/ovation/ovation_north_24h.mp4'"
+    cmds:
+      - task: ":swpc:download"
+        vars:
+          OUTPUT_DIR: "public/videos/ovation"
+          PRODUCT: "ovation_north_24h"
+
+  north-24h:deploy:
+    desc: "Deploy 'public/videos/ovation/ovation_north_24h.mp4'"
+    deps:
+      - task: "north-24h:download"
+    cmds:
+      - task: ":ftp:copy-file"
+        vars:
+          SOURCE_FILE: "public/videos/ovation/ovation_north_24h.mp4"
+          TARGET_FILE: "/videos/ovation/ovation_north_24h.mp4"

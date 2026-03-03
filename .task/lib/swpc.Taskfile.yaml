@@ -1,0 +1,37 @@
+version: "3"
+
+tasks:
+  download:
+    desc: "Download files from SWPC"
+    internal: true
+    ignore_error: true
+    cmds:
+      - |
+        mkdir --parents {{ .OUTPUT_DIR }}
+      - |
+        frames=$(
+          curl \
+            --silent \
+            --show-error \
+            --location \
+              https://services.swpc.noaa.gov/products/animations/{{.PRODUCT}}.json | \
+          jq \
+            --raw-output \
+              '"https://services.swpc.noaa.gov" + .[].url'
+        )
+
+        curl \
+          --silent \
+          --show-error \
+          --location \
+            $frames | \
+        ffmpeg \
+          -loglevel error \
+          -framerate 10 \
+          -f image2pipe \
+          -i - \
+          -c:v libx264 \
+          -r 30 \
+          -pix_fmt yuv420p \
+          -y \
+            {{ .OUTPUT_DIR }}/{{.PRODUCT}}.mp4

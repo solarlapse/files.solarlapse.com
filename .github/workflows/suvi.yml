@@ -1,0 +1,50 @@
+name: "suvi"
+
+on:
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN
+permissions:
+  contents: "read"
+
+jobs:
+  suvi:
+    name: "${{ matrix.task }}"
+    strategy:
+      matrix:
+        task:
+          - "suvi:primary-094"
+          - "suvi:primary-131"
+          - "suvi:primary-171"
+          - "suvi:primary-195"
+          - "suvi:primary-284"
+          - "suvi:primary-304"
+          - "suvi:secondary-094"
+          - "suvi:secondary-131"
+          - "suvi:secondary-171"
+          - "suvi:secondary-195"
+          - "suvi:secondary-284"
+          - "suvi:secondary-304"
+
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - name: "GitHub: Checkout Repository"
+        uses: "actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683" # v4.2.2
+
+      - name: "GitHub: Setup Nix"
+        uses: "custom-workflows/setup-nix@d3dc49dd7bd37d10de81c938bebefad918e4d499" # latest
+        with:
+          install_url: "https://releases.nixos.org/nix/nix-2.29.0/install"
+          extra_nix_config: |
+              extra-experimental-features = nix-command flakes
+
+      - name: "Task: Run"
+        shell: "bash"
+        run: |
+          nix develop --command \
+            task ${{ matrix.task }}:deploy
+        env:
+          FTP_HOST: "${{ vars.FTP_HOST }}"
+          FTP_USER: "${{ secrets.FTP_USER }}"
+          FTP_PASSWORD: "${{ secrets.FTP_PASSWORD }}"

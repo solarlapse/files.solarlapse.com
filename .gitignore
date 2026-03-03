@@ -1,0 +1,35 @@
+# Created by https://www.toptal.com/developers/gitignore/api/dotenv
+# Edit at https://www.toptal.com/developers/gitignore?templates=dotenv
+
+### dotenv ###
+.env
+
+### dst ###
+public/text/dst/dst.txt
+
+### enlil ###
+public/videos/enlil/enlil.mp4
+
+### lasco ###
+public/videos/lasco/lasco-c2.mp4
+public/videos/lasco/lasco-c3.mp4
+
+### ovation ###
+public/videos/ovation/ovation_north_24h.mp4
+public/videos/ovation/ovation_south_24h.mp4
+
+### suvi ###
+public/videos/suvi/suvi-primary-094.mp4
+public/videos/suvi/suvi-primary-131.mp4
+public/videos/suvi/suvi-primary-171.mp4
+public/videos/suvi/suvi-primary-195.mp4
+public/videos/suvi/suvi-primary-284.mp4
+public/videos/suvi/suvi-primary-304.mp4
+public/videos/suvi/suvi-secondary-094.mp4
+public/videos/suvi/suvi-secondary-131.mp4
+public/videos/suvi/suvi-secondary-171.mp4
+public/videos/suvi/suvi-secondary-195.mp4
+public/videos/suvi/suvi-secondary-284.mp4
+public/videos/suvi/suvi-secondary-304.mp4
+
+# End of https://www.toptal.com/developers/gitignore/api/dotenv
