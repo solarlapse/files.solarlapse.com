@@ -1,0 +1,20 @@
+version: "3"
+
+tasks:
+  download:
+    desc: "Download 'public/text/dst/dst.txt'"
+    cmds:
+      - |
+        dst \
+          --all \
+          --output public/text/dst/dst.txt
+
+  deploy:
+    desc: "Deploy 'public/text/dst' files"
+    deps:
+      - task: "download"
+    cmds:
+      - task: ":ftp:copy-file"
+        vars:
+          SOURCE_FILE: "public/text/dst/dst.txt"
+          TARGET_FILE: "/text/dst/dst.txt"

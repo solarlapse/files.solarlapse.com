@@ -1,0 +1,244 @@
+version: "3"
+
+tasks:
+  download:
+    desc: "Download 'public/videos/suvi' files"
+    cmds:
+      - task: "primary-094:download"
+      - task: "primary-131:download"
+      - task: "primary-171:download"
+      - task: "primary-195:download"
+      - task: "primary-284:download"
+      - task: "primary-304:download"
+      - task: "secondary-094:download"
+      - task: "secondary-131:download"
+      - task: "secondary-171:download"
+      - task: "secondary-195:download"
+      - task: "secondary-284:download"
+      - task: "secondary-304:download"
+
+  deploy:
+    desc: "Deploy 'public/videos/suvi' files"
+    deps:
+      - task: "download"
+    cmds:
+      - task: ":ftp:sync"
+        vars:
+          SOURCE_DIR: "public/videos/suvi"
+          TARGET_DIR: "/videos/suvi"
+
+  primary-094:download:
+    desc: "Download 'public/videos/suvi/suvi-primary-094.mp4'"
+    cmds:
+      - task: ":swpc:download"
+        vars:
+          OUTPUT_DIR: "public/videos/suvi"
+          PRODUCT: "suvi-primary-094"
+
+  primary-094:deploy:
+    desc: "Deploy 'public/videos/suvi/suvi-primary-094.mp4'"
+    deps:
+      - task: "primary-094:download"
+    cmds:
+      - task: ":ftp:copy-file"
+        vars:
+          SOURCE_FILE: "public/videos/suvi/suvi-primary-094.mp4"
+          TARGET_FILE: "/videos/suvi/suvi-primary-094.mp4"
+
+  primary-131:download:
+    desc: "Download 'public/videos/suvi/suvi-primary-131.mp4'"
+    cmds:
+      - task: ":swpc:download"
+        vars:
+          OUTPUT_DIR: "public/videos/suvi"
+          PRODUCT: "suvi-primary-131"
+
+  primary-131:deploy:
+    desc: "Deploy 'public/videos/suvi/suvi-primary-131.mp4'"
+    deps:
+      - task: "primary-131:download"
+    cmds:
+      - task: ":ftp:copy-file"
+        vars:
+          SOURCE_FILE: "public/videos/suvi/suvi-primary-131.mp4"
+          TARGET_FILE: "/videos/suvi/suvi-primary-131.mp4"
+
+  primary-171:download:
+    desc: "Download 'public/videos/suvi/suvi-primary-171.mp4'"
+    cmds:
+      - task: ":swpc:download"
+        vars:
+          OUTPUT_DIR: "public/videos/suvi"
+          PRODUCT: "suvi-primary-171"
+
+  primary-171:deploy:
+    desc: "Deploy 'public/videos/suvi/suvi-primary-171.mp4'"
+    deps:
+      - task: "primary-171:download"
+    cmds:
+      - task: ":ftp:copy-file"
+        vars:
+          SOURCE_FILE: "public/videos/suvi/suvi-primary-171.mp4"
+          TARGET_FILE: "/videos/suvi/suvi-primary-171.mp4"
+
+  primary-195:download:
+    desc: "Download 'public/videos/suvi/suvi-primary-195.mp4'"
+    cmds:
+      - task: ":swpc:download"
+        vars:
+          OUTPUT_DIR: "public/videos/suvi"
+          PRODUCT: "suvi-primary-195"
+
+  primary-195:deploy:
+    desc: "Deploy 'public/videos/suvi/suvi-primary-195.mp4'"
+    deps:
+      - task: "primary-195:download"
+    cmds:
+      - task: ":ftp:copy-file"
+        vars:
+          SOURCE_FILE: "public/videos/suvi/suvi-primary-195.mp4"
+          TARGET_FILE: "/videos/suvi/suvi-primary-195.mp4"
+
+  primary-284:download:
+    desc: "Download 'public/videos/suvi/suvi-primary-284.mp4'"
+    cmds:
+      - task: ":swpc:download"
+        vars:
+          OUTPUT_DIR: "public/videos/suvi"
+          PRODUCT: "suvi-primary-284"
+
+  primary-284:deploy:
+    desc: "Deploy 'public/videos/suvi/suvi-primary-284.mp4'"
+    deps:
+      - task: "primary-284:download"
+    cmds:
+      - task: ":ftp:copy-file"
+        vars:
+          SOURCE_FILE: "public/videos/suvi/suvi-primary-284.mp4"
+          TARGET_FILE: "/videos/suvi/suvi-primary-284.mp4"
+
+  primary-304:download:
+    desc: "Download 'public/videos/suvi/suvi-primary-304.mp4'"
+    cmds:
+      - task: ":swpc:download"
+        vars:
+          OUTPUT_DIR: "public/videos/suvi"
+          PRODUCT: "suvi-primary-304"
+
+  primary-304:deploy:
+    desc: "Deploy 'public/videos/suvi/suvi-primary-304.mp4'"
+    deps:
+      - task: "primary-304:download"
+    cmds:
+      - task: ":ftp:copy-file"
+        vars:
+          SOURCE_FILE: "public/videos/suvi/suvi-primary-304.mp4"
+          TARGET_FILE: "/videos/suvi/suvi-primary-304.mp4"
+
+  secondary-094:download:
+    desc: "Download 'public/videos/suvi/suvi-secondary-094.mp4'"
+    cmds:
+      - task: ":swpc:download"
+        vars:
+          OUTPUT_DIR: "public/videos/suvi"
+          PRODUCT: "suvi-secondary-094"
+
+  secondary-094:deploy:
+    desc: "Deploy 'public/videos/suvi/suvi-secondary-094.mp4'"
+    deps:
+      - task: "secondary-094:download"
+    cmds:
+      - task: ":ftp:copy-file"
+        vars:
+          SOURCE_FILE: "public/videos/suvi/suvi-secondary-094.mp4"
+          TARGET_FILE: "/videos/suvi/suvi-secondary-094.mp4"
+
+  secondary-131:download:
+    desc: "Download 'public/videos/suvi/suvi-secondary-131.mp4'"
+    cmds:
+      - task: ":swpc:download"
+        vars:
+          OUTPUT_DIR: "public/videos/suvi"
+          PRODUCT: "suvi-secondary-131"
+
+  secondary-131:deploy:
+    desc: "Deploy 'public/videos/suvi/suvi-secondary-131.mp4'"
+    deps:
+      - task: "secondary-131:download"
+    cmds:
+      - task: ":ftp:copy-file"
+        vars:
+          SOURCE_FILE: "public/videos/suvi/suvi-secondary-131.mp4"
+          TARGET_FILE: "/videos/suvi/suvi-secondary-131.mp4"
+
+  secondary-171:download:
+    desc: "Download 'public/videos/suvi/suvi-secondary-171.mp4'"
+    cmds:
+      - task: ":swpc:download"
+        vars:
+          OUTPUT_DIR: "public/videos/suvi"
+          PRODUCT: "suvi-secondary-171"
+
+  secondary-171:deploy:
+    desc: "Deploy 'public/videos/suvi/suvi-secondary-171.mp4'"
+    deps:
+      - task: "secondary-171:download"
+    cmds:
+      - task: ":ftp:copy-file"
+        vars:
+          SOURCE_FILE: "public/videos/suvi/suvi-secondary-171.mp4"
+          TARGET_FILE: "/videos/suvi/suvi-secondary-171.mp4"
+
+  secondary-195:download:
+    desc: "Download 'public/videos/suvi/suvi-secondary-195.mp4'"
+    cmds:
+      - task: ":swpc:download"
+        vars:
+          OUTPUT_DIR: "public/videos/suvi"
+          PRODUCT: "suvi-secondary-195"
+
+  secondary-195:deploy:
+    desc: "Deploy 'public/videos/suvi/suvi-secondary-195.mp4'"
+    deps:
+      - task: "secondary-195:download"
+    cmds:
+      - task: ":ftp:copy-file"
+        vars:
+          SOURCE_FILE: "public/videos/suvi/suvi-secondary-195.mp4"
+          TARGET_FILE: "/videos/suvi/suvi-secondary-195.mp4"
+
+  secondary-284:download:
+    desc: "Download 'public/videos/suvi/suvi-secondary-284.mp4'"
+    cmds:
+      - task: ":swpc:download"
+        vars:
+          OUTPUT_DIR: "public/videos/suvi"
+          PRODUCT: "suvi-secondary-284"
+
+  secondary-284:deploy:
+    desc: "Deploy 'public/videos/suvi/suvi-secondary-284.mp4'"
+    deps:
+      - task: "secondary-284:download"
+    cmds:
+      - task: ":ftp:copy-file"
+        vars:
+          SOURCE_FILE: "public/videos/suvi/suvi-secondary-284.mp4"
+          TARGET_FILE: "/videos/suvi/suvi-secondary-284.mp4"
+
+  secondary-304:download:
+    desc: "Download 'public/videos/suvi/suvi-secondary-304.mp4'"
+    cmds:
+      - task: ":swpc:download"
+        vars:
+          OUTPUT_DIR: "public/videos/suvi"
+          PRODUCT: "suvi-secondary-304"
+
+  secondary-304:deploy:
+    desc: "Deploy 'public/videos/suvi/suvi-secondary-304.mp4'"
+    deps:
+      - task: "secondary-304:download"
+    cmds:
+      - task: ":ftp:copy-file"
+        vars:
+          SOURCE_FILE: "public/videos/suvi/suvi-secondary-304.mp4"
+          TARGET_FILE: "/videos/suvi/suvi-secondary-304.mp4"

@@ -1,0 +1,38 @@
+name: "dst"
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: "read"
+
+jobs:
+  dst:
+    name: "${{ matrix.task }}"
+    strategy:
+      matrix:
+        task:
+          - "dst"
+
+    runs-on: "ubuntu-latest"
+    container:
+      image: "docker.io/nixos/nix@sha256:b9c9611c8530fa8049a1215b20638536e1e71dcaf85212e47845112caf3adeea" # v2.34.0
+      env:
+        NIX_CONFIG: "experimental-features = nix-command flakes"
+
+    steps:
+      - name: "GitHub: Checkout Repository"
+        run: |
+          git init --quiet --initial-branch "main"
+          git config --global --add safe.directory "*"
+          git remote add origin "${{ github.server_url }}/${{ github.repository }}"
+          git config --local http.${{ github.server_url }}/.extraheader "Authorization: basic $(echo -n "x-access-token:${{ github.token }}" | base64 --wrap=0)"
+          git fetch --quiet --no-tags --depth=1 origin "${{ github.ref }}"
+          git checkout --quiet "${{ github.sha }}"
+      - name: "Task: Run"
+        shell: "nix develop .#ciEnvironment -c bash -e {0}"
+        run: "task ${{ matrix.task }}:deploy"
+        env:
+          FTP_HOST: "${{ vars.FTP_HOST }}"
+          FTP_USER: "${{ secrets.FTP_USER }}"
+          FTP_PASSWORD: "${{ secrets.FTP_PASSWORD }}"

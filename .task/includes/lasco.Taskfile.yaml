@@ -1,0 +1,54 @@
+version: "3"
+
+tasks:
+  download:
+    desc: "Download 'public/videos/lasco' files"
+    cmds:
+      - task: "c2:download"
+      - task: "c3:download"
+
+  deploy:
+    desc: "Deploy 'public/videos/lasco' files"
+    deps:
+      - task: "download"
+    cmds:
+      - task: ":ftp:sync"
+        vars:
+          SOURCE_DIR: "public/videos/lasco"
+          TARGET_DIR: "/videos/lasco"
+
+  c2:download:
+    desc: "Download 'public/videos/lasco/lasco-c2.mp4'"
+    cmds:
+      - task: ":swpc:download"
+        vars:
+          OUTPUT_DIR: "public/videos/lasco"
+          PRODUCT: "lasco-c2"
+
+  c2:deploy:
+    desc: "Deploy 'public/videos/lasco/lasco-c2.mp4'"
+    deps:
+      - task: "c2:download"
+    cmds:
+      - task: ":ftp:copy-file"
+        vars:
+          SOURCE_FILE: "public/videos/lasco/lasco-c2.mp4"
+          TARGET_FILE: "/videos/lasco/lasco-c2.mp4"
+
+  c3:download:
+    desc: "Download 'public/videos/lasco/lasco-c3.mp4'"
+    cmds:
+      - task: ":swpc:download"
+        vars:
+          OUTPUT_DIR: "public/videos/lasco"
+          PRODUCT: "lasco-c3"
+
+  c3:deploy:
+    desc: "Deploy 'public/videos/lasco/lasco-c3.mp4'"
+    deps:
+      - task: "c3:download"
+    cmds:
+      - task: ":ftp:copy-file"
+        vars:
+          SOURCE_FILE: "public/videos/lasco/lasco-c3.mp4"
+          TARGET_FILE: "/videos/lasco/lasco-c3.mp4"

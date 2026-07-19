@@ -1,0 +1,10 @@
+version: "3"
+
+tasks:
+  deploy:
+    desc: "Deploy 'public/' files"
+    cmds:
+      - task: ":ftp:copy"
+        vars:
+          SOURCE_DIR: "public"
+          TARGET_DIR: "/"

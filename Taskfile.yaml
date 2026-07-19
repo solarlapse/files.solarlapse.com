@@ -1,0 +1,70 @@
+version: "3"
+
+dotenv:
+  - .env
+
+includes:
+  dst: ".task/includes/dst.Taskfile.yaml"
+  enlil: ".task/includes/enlil.Taskfile.yaml"
+  lasco: ".task/includes/lasco.Taskfile.yaml"
+  ovation: ".task/includes/ovation.Taskfile.yaml"
+  public: ".task/includes/public.Taskfile.yaml"
+  suvi: ".task/includes/suvi.Taskfile.yaml"
+  swpc:
+    taskfile: ".task/lib/swpc.Taskfile.yaml"
+    internal: true
+  ftp:
+    taskfile: ".task/lib/ftp.Taskfile.yaml"
+    internal: true
+
+tasks:
+  default:
+    desc: "Download all files"
+    cmds:
+      - task: "dst:download"
+      - task: "enlil:download"
+      - task: "lasco:download"
+      - task: "ovation:download"
+      - task: "suvi:download"
+
+  init:
+    desc: "Initialize project"
+    cmds:
+      - task: "init:env"
+
+  init:env:
+    desc: "Initialize project environment variables"
+    cmds:
+      - |
+        cat <<EOF > .env
+        FTP_HOST="{{ .FTP_HOST }}"
+        FTP_USER="{{ .FTP_USER }}"
+        FTP_PASSWORD="{{ .FTP_PASSWORD }}"
+        EOF
+    requires:
+      vars:
+        - "FTP_HOST"
+        - "FTP_USER"
+        - "FTP_PASSWORD"
+
+  format:
+    desc: "Format project"
+    cmds:
+      - task: "format:nix"
+
+  format:nix:
+    desc: "Format project with Nix"
+    sources:
+      - "**/*.nix"
+    cmds:
+      - "nix fmt"
+
+  clean:
+    desc: "Clean project"
+    cmds:
+      - task: "clean:task"
+
+  clean:task:
+    desc: "Clean project '.task/' directory"
+    cmds:
+      - "rm --recursive --force .task/"

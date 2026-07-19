@@ -1,0 +1,20 @@
+version: "3"
+
+tasks:
+  download:
+    desc: "Download 'public/videos/enlil' files"
+    cmds:
+      - task: ":swpc:download"
+        vars:
+          OUTPUT_DIR: "public/videos/enlil"
+          PRODUCT: "enlil"
+
+  deploy:
+    desc: "Deploy 'public/videos/enlil' files"
+    deps:
+      - task: "download"
+    cmds:
+      - task: ":ftp:copy-file"
+        vars:
+          SOURCE_FILE: "public/videos/enlil/enlil.mp4"
+          TARGET_FILE: "/videos/enlil/enlil.mp4"

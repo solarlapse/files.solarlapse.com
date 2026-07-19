@@ -1,0 +1,91 @@
+version: "3"
+
+tasks:
+  cleanup-partial-files:
+    desc: "Cleanup '.partial' files with FTP"
+    internal: true
+    cmds:
+      - >-
+        rclone delete :ftp:{{ .TARGET_DIR }} \
+          --include "{{.INCLUDE_PATTERN | default "*.partial"}}" \
+          --ftp-host=${FTP_HOST} \
+          --ftp-user=${FTP_USER} \
+          --ftp-pass=$(rclone obscure ${FTP_PASSWORD}) \
+          --ftp-explicit-tls=true
+    requires:
+      vars:
+        - FTP_HOST
+        - FTP_USER
+        - FTP_PASSWORD
+
+  sync:
+    desc: "Sync files with FTP"
+    internal: true
+    cmds:
+      - >-
+        rclone sync {{ .SOURCE_DIR }} :ftp:{{ .TARGET_DIR }} \
+          --ftp-host=${FTP_HOST} \
+          --ftp-user=${FTP_USER} \
+          --ftp-pass=$(rclone obscure ${FTP_PASSWORD}) \
+          --ftp-explicit-tls=true
+      - defer: { 
+          task: "cleanup-partial-files", 
+          vars: { 
+            TARGET_DIR: "{{ .TARGET_DIR }}" 
+          } 
+        }
+    requires:
+      vars:
+        - FTP_HOST
+        - FTP_USER
+        - FTP_PASSWORD
+
+  copy:
+    desc: "Copy files with FTP"
+    internal: true
+    cmds:
+      - >-
+        rclone copy {{ .SOURCE_DIR }} :ftp:{{ .TARGET_DIR }} \
+          --ftp-host=${FTP_HOST} \
+          --ftp-user=${FTP_USER} \
+          --ftp-pass=$(rclone obscure ${FTP_PASSWORD}) \
+          --ftp-explicit-tls=true
+      - defer: { 
+          task: "cleanup-partial-files", 
+          vars: { 
+            TARGET_DIR: "{{ .TARGET_DIR }}" 
+          } 
+        }
+    requires:
+      vars:
+        - FTP_HOST
+        - FTP_USER
+        - FTP_PASSWORD
+
+  copy-file:
+    desc: "Copy one file with FTP"
+    internal: true
+    vars:
+      TARGET_DIR:
+        sh: dirname "{{.TARGET_FILE}}"
+      TARGET_BASENAME:
+        sh: basename "{{.TARGET_FILE}}"
+    cmds:
+      - >-
+        rclone copyto {{ .SOURCE_FILE }} :ftp:{{ .TARGET_FILE }} \
+          --ftp-host=${FTP_HOST} \
+          --ftp-user=${FTP_USER} \
+          --ftp-pass=$(rclone obscure ${FTP_PASSWORD}) \
+          --ftp-explicit-tls=true
+      - defer: { 
+          task: "cleanup-partial-files", 
+          vars: { 
+            TARGET_DIR: "{{ .TARGET_DIR }}",
+            INCLUDE_PATTERN: "{{.TARGET_BASENAME}}.*.partial"
+          } 
+        }
+    requires:
+      vars:
+        - FTP_HOST
+        - FTP_USER
+        - FTP_PASSWORD
